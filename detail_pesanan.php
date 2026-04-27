@@ -36,90 +36,173 @@ $hasil_detail = mysqli_query($koneksi, $query_detail);
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Detail Pesanan #WRT-<?php echo $id_pesanan; ?> - Wartan Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Pesanan #WRT-<?php echo $id_pesanan; ?> - Gowar Admin</title>
+    <!-- Modern Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>.bg-wartan { background-color: #1a8f50; }</style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        wartan: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#1a8f50',
+                            700: '#15803d',
+                            800: '#147340',
+                            900: '#14532d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="bg-gray-100 p-8">
+<body class="bg-slate-50 font-sans text-slate-800 min-h-screen py-10 px-4">
 
-    <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+    <!-- Header Navigation Back -->
+    <div class="max-w-4xl mx-auto mb-6">
+        <a href="pesanan.php" class="inline-flex items-center gap-2 text-slate-500 hover:text-wartan-600 font-semibold transition-colors bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm hover:shadow-md">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Kembali ke Daftar Pesanan
+        </a>
+    </div>
+
+    <!-- Main Detail Card -->
+    <div class="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-100">
         
-        <div class="bg-wartan text-white p-4 flex justify-between items-center">
-            <h2 class="text-xl font-bold">Detail Pesanan #WRT-<?php echo $id_pesanan; ?></h2>
-            <a href="pesanan.php" class="bg-white text-green-700 px-3 py-1 rounded text-sm font-semibold hover:bg-gray-100">Kembali</a>
+        <!-- Ticket Header -->
+        <div class="bg-gradient-to-r from-wartan-600 to-wartan-700 text-white p-8 relative overflow-hidden">
+            <div class="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-3xl font-extrabold tracking-tight mb-1">Order #WRT-<?php echo $id_pesanan; ?></h2>
+                    <p class="text-wartan-50 font-medium opacity-90 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <?php echo date('d F Y, H:i', strtotime($data_pesanan['tanggal'])); ?>
+                    </p>
+                </div>
+                <div>
+                    <?php 
+                    if($data_pesanan['status_pengiriman'] == 'masuk') {
+                        echo '<span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-bold bg-white/20 text-white border border-white/30 backdrop-blur-sm"><span class="w-2 h-2 rounded-full bg-yellow-300 animate-pulse"></span>Pesanan Masuk</span>';
+                    } else if($data_pesanan['status_pengiriman'] == 'disiapkan') {
+                        echo '<span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-bold bg-white/20 text-white border border-white/30 backdrop-blur-sm"><span class="w-2 h-2 rounded-full bg-blue-300 animate-pulse"></span>Sedang Disiapkan</span>';
+                    } else if($data_pesanan['status_pengiriman'] == 'selesai') {
+                        echo '<span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-bold bg-white/20 text-white border border-white/30 backdrop-blur-sm"><span class="w-2 h-2 rounded-full bg-green-300"></span>Selesai</span>';
+                    } else {
+                        echo '<span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-bold bg-red-900/40 text-red-100 border border-red-400/40 backdrop-blur-sm"><span class="w-2 h-2 rounded-full bg-red-300"></span>Dibatalkan</span>';
+                    }
+                    ?>
+                </div>
+            </div>
         </div>
 
-        <div class="p-6">
-            <div class="grid grid-cols-2 gap-4 mb-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
+        <div class="p-8">
+            <!-- Customer Info Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10 bg-slate-50 p-6 rounded-2xl border border-slate-100">
                 <div>
-                    <p class="text-sm text-gray-500">Nama Pemesan</p>
-                    <p class="font-bold text-gray-800"><?php echo $data_pesanan['nama']; ?></p>
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Pelanggan</p>
+                    <p class="font-extrabold text-slate-800 text-lg flex items-center gap-2">
+                        <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                        <?php echo $data_pesanan['nama']; ?>
+                    </p>
                 </div>
                 <div>
-                    <p class="text-sm text-gray-500">Waktu Pemesanan</p>
-                    <p class="font-bold text-gray-800"><?php echo date('d/m/Y H:i', strtotime($data_pesanan['tanggal'])); ?></p>
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Metode</p>
+                    <p class="font-bold text-slate-800 uppercase flex items-center gap-2">
+                        <?php if($data_pesanan['tipe_pesanan'] == 'delivery'): ?>
+                            <span class="p-1.5 rounded-md bg-purple-100 text-purple-600"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></span>
+                        <?php else: ?>
+                            <span class="p-1.5 rounded-md bg-orange-100 text-orange-600"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg></span>
+                        <?php endif; ?>
+                        <?php echo $data_pesanan['tipe_pesanan']; ?>
+                    </p>
                 </div>
-                <div>
-                    <p class="text-sm text-gray-500">Tipe Pesanan</p>
-                    <p class="font-bold text-gray-800 uppercase"><?php echo $data_pesanan['tipe_pesanan']; ?></p>
-                </div>
-                <div>
-                    <p class="text-sm text-gray-500">Alamat Pengiriman</p>
-                    <p class="font-bold text-gray-800"><?php echo $data_pesanan['alamat_pengiriman'] ? $data_pesanan['alamat_pengiriman'] : '- (Ambil di tempat)'; ?></p>
+                <div class="md:col-span-2 lg:col-span-2">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Detail Alamat / Catatan</p>
+                    <p class="font-semibold text-slate-700 bg-white px-3 py-2 rounded-lg border border-slate-200 inline-block w-full">
+                        <?php echo $data_pesanan['alamat_pengiriman'] ? $data_pesanan['alamat_pengiriman'] : '<span class="italic text-slate-400">Makan di Tempat / Ambil Sendiri</span>'; ?>
+                    </p>
                 </div>
             </div>
 
-            <h3 class="font-bold text-gray-700 mb-3">Item yang Dipesan:</h3>
-            <table class="w-full text-left mb-6 border-collapse">
-                <thead>
-                    <tr class="bg-gray-100 border-b">
-                        <th class="p-2">Nama Menu</th>
-                        <th class="p-2 text-center">Jumlah</th>
-                        <th class="p-2 text-right">Harga Satuan</th>
-                        <th class="p-2 text-right">Subtotal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php 
-                    if (mysqli_num_rows($hasil_detail) > 0) {
-                        while ($item = mysqli_fetch_assoc($hasil_detail)) { 
-                            $subtotal = $item['jumlah'] * $item['harga_satuan'];
-                    ?>
-                        <tr class="border-b">
-                            <td class="p-2"><?php echo $item['nama_menu'] ? $item['nama_menu'] : 'Menu Dihapus'; ?></td>
-                            <td class="p-2 text-center"><?php echo $item['jumlah']; ?>x</td>
-                            <td class="p-2 text-right">Rp <?php echo number_format($item['harga_satuan'], 0, ',', '.'); ?></td>
-                            <td class="p-2 text-right font-semibold">Rp <?php echo number_format($subtotal, 0, ',', '.'); ?></td>
+            <h3 class="font-extrabold text-slate-800 mb-4 text-xl flex items-center gap-2">
+                <svg class="w-6 h-6 text-wartan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                Rincian Pesanan
+            </h3>
+            
+            <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden mb-8 shadow-sm">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-200">
+                            <th class="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Item Menu</th>
+                            <th class="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-center w-24">Qty</th>
+                            <th class="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Harga</th>
+                            <th class="p-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Subtotal</th>
                         </tr>
-                    <?php 
-                        } 
-                    } else {
-                        echo '<tr><td colspan="4" class="p-4 text-center text-gray-500 italic">Rincian item belum tersedia (Pesanan Dummy)</td></tr>';
-                    }
-                    ?>
-                </tbody>
-                <tfoot>
-                    <tr class="bg-gray-50 font-bold text-lg">
-                        <td colspan="3" class="p-3 text-right">Total Pembayaran:</td>
-                        <td class="p-3 text-right text-green-700">Rp <?php echo number_format($data_pesanan['total_harga'], 0, ',', '.'); ?></td>
-                    </tr>
-                </tfoot>
-            </table>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <?php 
+                        if (mysqli_num_rows($hasil_detail) > 0) {
+                            while ($item = mysqli_fetch_assoc($hasil_detail)) { 
+                                $subtotal = $item['jumlah'] * $item['harga_satuan'];
+                        ?>
+                            <tr class="hover:bg-slate-50/50 transition-colors">
+                                <td class="p-4 font-bold text-slate-800"><?php echo $item['nama_menu'] ? $item['nama_menu'] : '<span class="text-red-500">Menu Dihapus</span>'; ?></td>
+                                <td class="p-4 text-center">
+                                    <span class="inline-block bg-slate-100 text-slate-700 font-bold px-2.5 py-1 rounded-md text-sm"><?php echo $item['jumlah']; ?>x</span>
+                                </td>
+                                <td class="p-4 text-right text-slate-600 font-medium">Rp <?php echo number_format($item['harga_satuan'], 0, ',', '.'); ?></td>
+                                <td class="p-4 text-right font-extrabold text-slate-800">Rp <?php echo number_format($subtotal, 0, ',', '.'); ?></td>
+                            </tr>
+                        <?php 
+                            } 
+                        } else {
+                            echo '<tr><td colspan="4" class="p-8 text-center text-slate-500 italic">Rincian item belum tersedia (Pesanan Dummy)</td></tr>';
+                        }
+                        ?>
+                    </tbody>
+                    <tfoot>
+                        <tr class="bg-wartan-50 border-t-2 border-slate-200">
+                            <td colspan="3" class="p-5 text-right font-bold text-slate-600 uppercase tracking-wider text-sm">Total Tagihan:</td>
+                            <td class="p-5 text-right font-extrabold text-2xl text-wartan-600 tracking-tight">Rp <?php echo number_format($data_pesanan['total_harga'], 0, ',', '.'); ?></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
 
-            <div class="border-t pt-6">
-                <form action="actions/proses_status.php" method="POST" class="flex items-end gap-4">
+            <!-- Action Area -->
+            <div class="bg-slate-800 rounded-2xl p-6 shadow-lg shadow-slate-800/20 text-white">
+                <form action="actions/proses_status.php" method="POST" class="flex flex-col md:flex-row items-center gap-6">
                     <input type="hidden" name="id_pesanan" value="<?php echo $id_pesanan; ?>">
                     
-                    <div class="flex-1">
-                        <label class="block text-gray-700 font-bold mb-2">Update Status Pesanan:</label>
-                        <select name="status_pengiriman" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500">
-                            <option value="masuk" <?php if($data_pesanan['status_pengiriman'] == 'masuk') echo 'selected'; ?>>Masuk (Baru)</option>
-                            <option value="disiapkan" <?php if($data_pesanan['status_pengiriman'] == 'disiapkan') echo 'selected'; ?>>Disiapkan (Sedang Dimasak)</option>
-                            <option value="selesai" <?php if($data_pesanan['status_pengiriman'] == 'selesai') echo 'selected'; ?>>Selesai (Siap Diambil/Diantar)</option>
-                        </select>
+                    <div class="flex-1 w-full">
+                        <label class="block text-slate-300 font-semibold mb-2 text-sm uppercase tracking-wider">Update Status Proses</label>
+                        <div class="relative">
+                            <select name="status_pengiriman" class="appearance-none w-full bg-slate-700 border border-slate-600 text-white font-bold px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-wartan-500 focus:border-transparent transition-all cursor-pointer shadow-inner">
+                                <option value="masuk" <?php if($data_pesanan['status_pengiriman'] == 'masuk') echo 'selected'; ?>>[🟠 Baru] Pesanan Masuk</option>
+                                <option value="disiapkan" <?php if($data_pesanan['status_pengiriman'] == 'disiapkan') echo 'selected'; ?>>[🔵 Proses] Sedang Disiapkan</option>
+                                <option value="selesai" <?php if($data_pesanan['status_pengiriman'] == 'selesai') echo 'selected'; ?>>[🟢 Selesai] Siap Diambil / Diantar</option>
+                                <option value="dibatalkan" style="color:#fca5a5;" <?php if($data_pesanan['status_pengiriman'] == 'dibatalkan') echo 'selected'; ?>>[🔴 Batal] Pesanan Dibatalkan</option>
+                            </select>
+                            <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-slate-400">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
                     </div>
-                    <button type="submit" name="update_status" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition">
-                        Simpan Status
+                    
+                    <button type="submit" name="update_status" class="w-full md:w-auto mt-6 md:mt-6 bg-wartan-500 hover:bg-wartan-400 text-white font-extrabold py-3.5 px-8 rounded-xl shadow-lg shadow-wartan-500/30 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                        Simpan Perubahan
                     </button>
                 </form>
             </div>
