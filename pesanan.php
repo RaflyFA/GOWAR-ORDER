@@ -43,7 +43,7 @@ $hasil_pesanan = mysqli_query($koneksi, $query_pesanan);
                 <li><a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">Dashboard</a></li>
                 <li><a href="index_admin.php" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">Kelola Menu</a></li>
                 <li><a href="pesanan.php" class="block px-4 py-2 bg-wartan text-white rounded font-semibold">Pesanan Masuk</a></li>
-                <li><a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">Laporan</a></li>
+                <li><a href="laporan.php" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">Laporan</a></li>
             </ul>
         </div>
 

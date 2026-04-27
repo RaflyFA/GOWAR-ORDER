@@ -55,7 +55,7 @@ $hasil_menu = mysqli_query($koneksi, $query_menu);
                     <a href="pesanan.php" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">Pesanan Masuk</a>
                 </li>
                 <li>
-                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">Laporan</a>
+                    <a href="laporan.php" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">Laporan</a>
                 </li>
             </ul>
         </div>

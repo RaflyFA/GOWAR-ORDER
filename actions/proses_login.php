@@ -32,7 +32,7 @@ if (isset($_POST['submit_login'])) {
         $_SESSION['role'] = 'admin';
 
         // 10. Arahkan (redirect) ke halaman Dashboard Admin
-        header("Location: ../index_admin.php");
+        header("Location: ../dashboard.php");
         exit();
 
     } else {
