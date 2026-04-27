@@ -92,7 +92,6 @@ include 'config/koneksi.php';
             border-radius: 12px;
             font-weight: 600;
             border: 1px solid #eee;
-            margin-left: 10px;
             text-decoration: none;
         }
 
@@ -114,6 +113,49 @@ include 'config/koneksi.php';
         .info-item { display: flex; align-items: center; gap: 8px; }
         .info-item i { color: var(--primary-green); }
 
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem !important;
+                letter-spacing: -0.5px !important;
+                margin-bottom: 10px !important;
+                line-height: 1.2 !important;
+            }
+            .hero-desc {
+                font-size: 0.95rem !important;
+                margin: 0 auto 20px auto !important;
+            }
+            .hero-container {
+                padding: 20px 0 !important;
+            }
+            .navbar {
+                padding: 10px 0 !important;
+            }
+            .logo-text { font-size: 1.2rem !important; }
+            .info-bottom {
+                margin-top: 40px !important;
+                gap: 15px !important;
+                flex-wrap: wrap;
+                justify-content: center !important;
+                font-size: 0.85rem !important;
+            }
+            .hero-image-wrap {
+                margin-top: 40px !important;
+                margin-left: auto;
+                margin-right: auto;
+                display: block;
+                max-width: 90%;
+            }
+            .hero-image-wrap img {
+                max-width: 100%;
+                height: auto;
+            }
+            .btn-green, .btn-outline {
+                justify-content: center !important;
+                padding: 12px 24px !important;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -134,7 +176,7 @@ include 'config/koneksi.php';
                 <div class="dropdown">
                     <button class="btn btn-outline text-dark dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: none; font-weight: 500;">
                         <i class="bi bi-person-circle fs-4 me-2" style="color: var(--primary-green);"></i> 
-                        <?php echo isset($_SESSION['nama_admin']) ? htmlspecialchars($_SESSION['nama_admin']) : 'User'; ?>
+                        <span class="d-none d-sm-inline"><?php echo isset($_SESSION['nama_admin']) ? htmlspecialchars($_SESSION['nama_admin']) : 'User'; ?></span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2" style="border-radius: 12px; min-width: 200px;">
                         <li><a class="dropdown-item py-2" href="profil.php"><i class="bi bi-geo-alt me-2 text-muted"></i> Profil & Alamat</a></li>
@@ -146,8 +188,8 @@ include 'config/koneksi.php';
                     </ul>
                 </div>
             <?php else: ?>
-                <a href="login.php" class="nav-link me-4 fw-medium text-dark">Masuk</a>
-                <a href="daftar.php" class="btn btn-green rounded-pill py-2 px-4" style="border-radius: 10px;">Daftar</a>
+                <a href="login.php" class="nav-link me-2 me-md-4 fw-medium text-dark" style="font-size: 0.95rem;">Masuk</a>
+                <a href="daftar.php" class="btn btn-green rounded-pill py-2 px-3 px-md-4" style="border-radius: 10px; font-size: 0.95rem;">Daftar</a>
             <?php endif; ?>
         </div>
     </div>
@@ -155,27 +197,27 @@ include 'config/koneksi.php';
 
 <div class="container hero-container">
     <div class="row align-items-center">
-        <div class="col-lg-6">
+        <div class="col-lg-6 text-center text-lg-start">
             <div class="badge-online">
                 <i class="bi bi-stars"></i> Pelayanan pemesanan menu online
             </div>
             <h1 class="hero-title">
                 Pesan menu favoritmu, <br><span>tanpa antri.</span>
             </h1>
-            <p class="hero-desc">
+            <p class="hero-desc mx-auto mx-lg-0">
                 Wartan memudahkan Anda memesan makanan dan minuman secara online — cepat, akurat, dan langsung sampai ke dapur kami.
             </p>
             
-            <div class="d-flex">
-                <a href="#menu" class="btn-green">
+            <div class="d-flex flex-wrap gap-3 mb-4 mb-md-0 justify-content-center justify-content-lg-start">
+                <a href="#menu" class="btn-green m-0">
                     <i class="bi bi-journal-text"></i> Lihat Menu
                 </a>
-                <a href="daftar.php" class="btn-outline">
+                <a href="daftar.php" class="btn-outline m-0">
                     Daftar Gratis
                 </a>
             </div>
 
-            <div class="info-bottom">
+            <div class="info-bottom mt-4 mt-md-5 mb-5 mb-lg-0">
                 <div class="info-item">
                     <i class="bi bi-clock"></i> Pesan 24 jam
                 </div>
@@ -185,7 +227,7 @@ include 'config/koneksi.php';
             </div>
         </div>
 
-        <div class="col-lg-6 mt-5 mt-lg-0">
+        <div class="col-lg-6 mt-5 pt-3 pt-lg-0">
             <div class="hero-image-wrap">
                 <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=1000" class="img-fluid" alt="Healthy Food">
             </div>
@@ -298,10 +340,10 @@ include 'config/koneksi.php';
     <?php
     $kat_aktif = isset($_GET['kategori']) ? $_GET['kategori'] : 'Semua';
     ?>
-    <div class="d-flex gap-2 mb-4">
-        <a href="index.php?kategori=Semua#menu" class="btn <?php echo $kat_aktif == 'Semua' ? 'btn-green' : 'btn-outline'; ?> m-0" style="padding: 8px 24px; border-radius: 10px; text-decoration: none;">Semua</a>
-        <a href="index.php?kategori=Makanan#menu" class="btn <?php echo $kat_aktif == 'Makanan' ? 'btn-green' : 'btn-outline'; ?> m-0" style="padding: 8px 24px; border-radius: 10px; text-decoration: none;">Makanan</a>
-        <a href="index.php?kategori=Minuman#menu" class="btn <?php echo $kat_aktif == 'Minuman' ? 'btn-green' : 'btn-outline'; ?> m-0" style="padding: 8px 24px; border-radius: 10px; text-decoration: none;">Minuman</a>
+    <div class="d-flex gap-2 mb-4 overflow-x-auto pb-2" style="white-space: nowrap; -webkit-overflow-scrolling: touch;">
+        <a href="index.php?kategori=Semua#menu" class="btn <?php echo $kat_aktif == 'Semua' ? 'btn-green' : 'btn-outline'; ?> m-0 flex-shrink-0" style="padding: 8px 24px; border-radius: 10px; text-decoration: none;">Semua</a>
+        <a href="index.php?kategori=Makanan#menu" class="btn <?php echo $kat_aktif == 'Makanan' ? 'btn-green' : 'btn-outline'; ?> m-0 flex-shrink-0" style="padding: 8px 24px; border-radius: 10px; text-decoration: none;">Makanan</a>
+        <a href="index.php?kategori=Minuman#menu" class="btn <?php echo $kat_aktif == 'Minuman' ? 'btn-green' : 'btn-outline'; ?> m-0 flex-shrink-0" style="padding: 8px 24px; border-radius: 10px; text-decoration: none;">Minuman</a>
     </div>
 
     <!-- Menu Grid -->

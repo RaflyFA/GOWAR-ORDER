@@ -37,9 +37,9 @@ if(empty($_SESSION['keranjang']) || !isset($_SESSION['keranjang'])) {
         <h2 class="fw-bold mb-4">Keranjang Pesanan</h2>
         
         <div class="card border-0 shadow-sm mb-4" style="border-radius: 16px;">
-            <div class="card-body p-4">
+            <div class="card-body p-3 p-md-4">
                 <div class="table-responsive">
-                    <table class="table align-middle">
+                    <table class="table align-middle text-nowrap">
                         <thead>
                             <tr>
                                 <th>Menu</th>

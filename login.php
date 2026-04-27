@@ -12,9 +12,9 @@
         .btn-wartan:hover { background-color: #147340; }
     </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
+<body class="flex items-center justify-center min-h-screen p-4" style="background-color: #1a8f50; background-image: url('https://www.transparenttextures.com/patterns/food.png');">
 
-    <div class="bg-white rounded-lg shadow-xl w-96 overflow-hidden">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-sm overflow-hidden">
         
         <div class="bg-wartan text-white text-center py-6">
             <div class="flex justify-center items-center gap-2 mb-2">
