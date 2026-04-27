@@ -156,6 +156,38 @@ include 'config/koneksi.php';
                 text-align: center;
             }
         }
+
+        /* Menu Image Containers */
+        .menu-img-container {
+            height: 160px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 16px;
+            background-color: var(--bg-cream);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .menu-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .fav-img-container {
+            height: 140px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 12px;
+            background-color: var(--bg-cream);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .fav-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
@@ -291,15 +323,13 @@ include 'config/koneksi.php';
                         <i class="bi bi-star-fill text-warning" style="font-size: 0.8rem;"></i>
                     </div>
                     
+                    <div class="fav-img-container" id="img-fav-<?php echo $row_fav['id_produk']; ?>">
                     <?php if(!empty($row_fav['gambar'])): ?>
-                        <div style="height: 140px; border-radius: 12px; overflow: hidden; margin-bottom: 12px;">
-                            <img src="assets/uploads/<?php echo $row_fav['gambar']; ?>" alt="<?php echo htmlspecialchars($row_fav['nama_menu']); ?>" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
+                        <img src="assets/uploads/<?php echo $row_fav['gambar']; ?>" alt="<?php echo htmlspecialchars($row_fav['nama_menu']); ?>">
                     <?php else: ?>
-                        <div style="background-color: var(--bg-cream); height: 140px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">
-                            <i class="bi bi-image" style="font-size: 2rem; color: #cbd5e1;"></i>
-                        </div>
+                        <i class="bi bi-image" style="font-size: 2rem; color: #cbd5e1;"></i>
                     <?php endif; ?>
+                    </div>
                     
                     <h5 class="card-title fw-bold" style="font-size: 1rem; color: var(--text-dark);"><?php echo htmlspecialchars($row_fav['nama_menu']); ?></h5>
                     <div class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top">
@@ -362,15 +392,13 @@ include 'config/koneksi.php';
                 <div class="card-body p-2 d-flex flex-column">
                     <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-dark); margin-bottom: 12px; display: block;"><?php echo htmlspecialchars($row['kategori_produk']); ?></span>
                     
+                    <div class="menu-img-container" id="img-menu-<?php echo $row['id_produk']; ?>">
                     <?php if(!empty($row['gambar'])): ?>
-                        <div style="height: 160px; border-radius: 12px; overflow: hidden; margin-bottom: 16px;">
-                            <img src="assets/uploads/<?php echo $row['gambar']; ?>" alt="<?php echo htmlspecialchars($row['nama_menu']); ?>" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
+                        <img src="assets/uploads/<?php echo $row['gambar']; ?>" alt="<?php echo htmlspecialchars($row['nama_menu']); ?>">
                     <?php else: ?>
-                        <div style="background-color: var(--bg-cream); height: 160px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
-                            <i class="bi bi-image" style="font-size: 2.5rem; color: #cbd5e1;"></i>
-                        </div>
+                        <i class="bi bi-image" style="font-size: 2.5rem; color: #cbd5e1;"></i>
                     <?php endif; ?>
+                    </div>
                     
                     <h5 class="card-title fw-bold" style="font-size: 1.05rem; color: var(--text-dark);"><?php echo htmlspecialchars($row['nama_menu']); ?></h5>
                     <p class="card-text text-muted" style="font-size: 0.85rem; line-height: 1.5; margin-bottom: 20px;"><?php echo htmlspecialchars($row['deskripsi']); ?></p>
