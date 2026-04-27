@@ -44,6 +44,14 @@ if (!isset($_SESSION['status_login']) || $_SESSION['role'] !== 'admin') {
                 <input type="number" name="harga" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required>
             </div>
 
+            <div class="mb-4">
+                <label class="block text-gray-700 font-semibold mb-2">Kategori</label>
+                <select name="kategori_produk" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required>
+                    <option value="Makanan">Makanan</option>
+                    <option value="Minuman">Minuman</option>
+                </select>
+            </div>
+
             <div class="mb-6">
                 <label class="block text-gray-700 font-semibold mb-2">Foto Makanan</label>
                 <input type="file" name="gambar" accept="image/*" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required>

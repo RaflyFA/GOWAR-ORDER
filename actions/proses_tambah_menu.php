@@ -9,6 +9,7 @@ if (isset($_POST['submit_tambah'])) {
     $nama_menu = $_POST['nama_menu'];
     $deskripsi = $_POST['deskripsi'];
     $harga     = $_POST['harga'];
+    $kategori  = $_POST['kategori_produk'];
     $status    = 'tersedia'; // Status default saat baru ditambah pasti "tersedia"
 
     // 2. Tangkap data file gambar yang diupload
@@ -34,8 +35,8 @@ if (isset($_POST['submit_tambah'])) {
     if (move_uploaded_file($tmp_file, $lokasi_simpan)) {
         
         // 7. Jika gambar sukses dipindah, simpan datanya (termasuk nama file baru) ke database MySQL
-        $query = "INSERT INTO produk (nama_menu, deskripsi, harga, gambar, status) 
-                  VALUES ('$nama_menu', '$deskripsi', '$harga', '$nama_file_baru', '$status')";
+        $query = "INSERT INTO produk (nama_menu, deskripsi, harga, gambar, status, kategori_produk) 
+                  VALUES ('$nama_menu', '$deskripsi', '$harga', '$nama_file_baru', '$status', '$kategori')";
         
         $eksekusi = mysqli_query($koneksi, $query);
 
