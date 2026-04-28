@@ -92,6 +92,16 @@ if (!isset($_SESSION['status_login']) || $_SESSION['role'] !== 'admin') {
             </div>
 
             <div class="space-y-1.5">
+                <label class="block text-sm font-bold text-slate-700">Kategori</label>
+                <div class="relative">
+                    <select name="kategori_produk" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 text-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-wartan-500/20 focus:border-wartan-500 transition-all shadow-sm font-medium cursor-pointer" required>
+                        <option value="Makanan">Makanan</option>
+                        <option value="Minuman">Minuman</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="space-y-1.5">
                 <label class="block text-sm font-bold text-slate-700">Foto Makanan</label>
                 <div class="relative">
                     <input type="file" name="gambar" accept="image/*" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 text-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-wartan-500/20 focus:border-wartan-500 transition-all shadow-sm font-medium file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-wartan-50 file:text-wartan-600 hover:file:bg-wartan-100 file:cursor-pointer" required>
