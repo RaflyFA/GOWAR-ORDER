@@ -92,7 +92,32 @@ if(empty($_SESSION['keranjang']) || !isset($_SESSION['keranjang'])) {
                         <label class="form-label fw-semibold">Nama Lengkap</label>
                         <input type="text" name="nama_pemesan" class="form-control p-3" required placeholder="Masukkan nama Anda" style="border-radius: 10px; background-color: #f8f9fa;">
                     </div>
+                    
+                    <div class="mb-5">
+                        <label class="form-label fw-semibold">Metode Pembayaran</label>
+                        <div class="d-flex gap-3 flex-column flex-sm-row">
+                            <label class="flex-fill border rounded-3 p-3 text-center cursor-pointer payment-option" style="cursor: pointer; transition: 0.3s; background-color: #fff;">
+                                <input type="radio" name="metode_pembayaran" value="cash" class="d-none" required checked>
+                                <i class="bi bi-cash-coin fs-2 text-success mb-2 d-block"></i>
+                                <span class="fw-bold d-block">Bayar di Kasir (Cash)</span>
+                            </label>
+                            <label class="flex-fill border rounded-3 p-3 text-center cursor-pointer payment-option" style="cursor: pointer; transition: 0.3s; background-color: #fff;">
+                                <input type="radio" name="metode_pembayaran" value="qris" class="d-none" required>
+                                <i class="bi bi-qr-code-scan fs-2 text-primary mb-2 d-block"></i>
+                                <span class="fw-bold d-block">Bayar Sekarang (QRIS)</span>
+                            </label>
+                        </div>
+                    </div>
+
                     <button type="submit" name="checkout" class="btn btn-green w-100 py-3 fw-bold fs-5">Selesaikan Pesanan</button>
+                    
+                    <style>
+                        .payment-option:has(input:checked) {
+                            border-color: var(--primary-green) !important;
+                            background-color: #f0fdf4 !important;
+                            box-shadow: 0 0 0 2px var(--primary-green);
+                        }
+                    </style>
                 </form>
             </div>
         </div>

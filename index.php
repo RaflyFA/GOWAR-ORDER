@@ -212,6 +212,7 @@ include 'config/koneksi.php';
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2" style="border-radius: 12px; min-width: 200px;">
                         <li><a class="dropdown-item py-2" href="profil.php"><i class="bi bi-geo-alt me-2 text-muted"></i> Profil & Alamat</a></li>
+                        <li><a class="dropdown-item py-2" href="riwayat.php"><i class="bi bi-clock-history me-2 text-muted"></i> Riwayat Pesanan</a></li>
                         <?php if($_SESSION['role'] == 'admin'): ?>
                         <li><a class="dropdown-item py-2" href="dashboard.php"><i class="bi bi-speedometer2 me-2 text-muted"></i> Dashboard Admin</a></li>
                         <?php endif; ?>
@@ -323,7 +324,7 @@ include 'config/koneksi.php';
                         <i class="bi bi-star-fill text-warning" style="font-size: 0.8rem;"></i>
                     </div>
                     
-                    <div class="fav-img-container" id="img-fav-<?php echo $row_fav['id_produk']; ?>">
+                    <div class="fav-img-container">
                     <?php if(!empty($row_fav['gambar'])): ?>
                         <img src="assets/uploads/<?php echo $row_fav['gambar']; ?>" alt="<?php echo htmlspecialchars($row_fav['nama_menu']); ?>">
                     <?php else: ?>
@@ -392,7 +393,7 @@ include 'config/koneksi.php';
                 <div class="card-body p-2 d-flex flex-column">
                     <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-dark); margin-bottom: 12px; display: block;"><?php echo htmlspecialchars($row['kategori_produk']); ?></span>
                     
-                    <div class="menu-img-container" id="img-menu-<?php echo $row['id_produk']; ?>">
+                    <div class="menu-img-container">
                     <?php if(!empty($row['gambar'])): ?>
                         <img src="assets/uploads/<?php echo $row['gambar']; ?>" alt="<?php echo htmlspecialchars($row['nama_menu']); ?>">
                     <?php else: ?>

@@ -4,10 +4,10 @@ include '../config/koneksi.php';
 
 if (isset($_POST['update_status'])) {
     $id_pesanan = $_POST['id_pesanan'];
-    $status_baru = $_POST['status_pengiriman'];
+    $status_baru = $_POST['status_pesanan'];
 
     // Update status di database
-    $query = "UPDATE pesanan SET status_pengiriman = '$status_baru' WHERE id_pesanan = '$id_pesanan'";
+    $query = "UPDATE pesanan SET status_pesanan = '$status_baru' WHERE id_pesanan = '$id_pesanan'";
     $eksekusi = mysqli_query($koneksi, $query);
 
     if ($eksekusi) {
