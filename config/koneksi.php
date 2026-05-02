@@ -2,7 +2,7 @@
 // Deklarasi variabel untuk koneksi ke database lokal
 $host     = "localhost";
 $username = "root";       // Default username untuk XAMPP/Laragon
-$password = "Ajun250605#";           // Kosongkan jika password root Laragon Anda belum pernah diubah
+$password = "";
 $database = "db_wartan";  // Nama database yang baru saja kita buat di HeidiSQL
 
 // Membuat koneksi menggunakan ekstensi mysqli

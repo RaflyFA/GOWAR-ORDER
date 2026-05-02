@@ -11,23 +11,23 @@ include 'config/koneksi.php';
 $filter = isset($_GET['filter']) ? $_GET['filter'] : 'semua';
 
 // Kita HANYA menghitung pesanan yang statusnya sudah 'selesai'
-$where_clause = "WHERE status_pengiriman = 'selesai'"; 
+$where_clause = "WHERE status_pesanan = 'selesai'"; 
 $periode_teks = "Semua Waktu";
 
 if ($filter == 'hari_ini') {
-    $where_clause .= " AND DATE(tanggal) = CURDATE()";
+    $where_clause .= " AND DATE(p.tanggal_pesanan) = CURDATE()";
     $periode_teks = "Hari Ini";
 } else if ($filter == 'minggu_ini') {
     // YEARWEEK dengan parameter 1 (Senin sebagai awal minggu)
-    $where_clause .= " AND YEARWEEK(tanggal, 1) = YEARWEEK(CURDATE(), 1)";
+    $where_clause .= " AND YEARWEEK(p.tanggal_pesanan, 1) = YEARWEEK(CURDATE(), 1)";
     $periode_teks = "Minggu Ini";
 } else if ($filter == 'bulan_ini') {
-    $where_clause .= " AND MONTH(tanggal) = MONTH(CURDATE()) AND YEAR(tanggal) = YEAR(CURDATE())";
+    $where_clause .= " AND MONTH(p.tanggal_pesanan) = MONTH(CURDATE()) AND YEAR(p.tanggal_pesanan) = YEAR(CURDATE())";
     $periode_teks = "Bulan Ini";
 }
 
 // 2. Ambil data pesanan sesuai filter
-$query_laporan = "SELECT * FROM pesanan $where_clause ORDER BY tanggal DESC";
+$query_laporan = "SELECT p.*, u.nama_lengkap as nama FROM pesanan p LEFT JOIN user u ON p.id_user = u.id_user $where_clause ORDER BY p.tanggal_pesanan DESC";
 $hasil_laporan = mysqli_query($koneksi, $query_laporan);
 
 // Variabel untuk menampung total uang
@@ -144,7 +144,7 @@ $total_omzet = 0;
                         </div>
                         <div class="truncate">
                             <p class="text-sm font-bold text-slate-800 truncate"><?php echo $_SESSION['nama_admin']; ?></p>
-                            <p class="text-xs text-slate-500">Administrator</p>
+                            <p class="text-xs text-slate-500">Admin</p>
                         </div>
                     </div>
                 </div>
@@ -235,20 +235,20 @@ $total_omzet = 0;
                             if (mysqli_num_rows($hasil_laporan) > 0) {
                                 $no = 1;
                                 while ($row = mysqli_fetch_assoc($hasil_laporan)) {
-                                    $total_omzet += $row['total_harga'];
+                                    $total_omzet += $row['total_pesanan'];
                             ?>
                                     <tr class="hover:bg-slate-50 transition-colors">
                                         <td class="px-6 py-4 text-sm font-medium text-slate-500"><?php echo $no++; ?></td>
-                                        <td class="px-6 py-4 text-sm"><?php echo date('d/m/Y H:i', strtotime($row['tanggal'])); ?></td>
+                                        <td class="px-6 py-4 text-sm"><?php echo date('d/m/Y H:i', strtotime($row['tanggal_pesanan'])); ?></td>
                                         <td class="px-6 py-4 font-semibold text-slate-800"><?php echo $row['nama']; ?></td>
                                         <td class="px-6 py-4">
-                                            <?php if($row['tipe_pesanan'] == 'delivery') { ?>
+                                            <?php if(isset($row['tipe_pesanan']) && $row['tipe_pesanan'] == 'delivery') { ?>
                                                 <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-purple-50 text-purple-700 border border-purple-100">Delivery</span>
                                             <?php } else { ?>
                                                 <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-orange-50 text-orange-700 border border-orange-100">Pickup</span>
                                             <?php } ?>
                                         </td>
-                                        <td class="px-6 py-4 text-right font-bold text-slate-800">Rp <?php echo number_format($row['total_harga'], 0, ',', '.'); ?></td>
+                                        <td class="px-6 py-4 text-right font-bold text-slate-800">Rp <?php echo number_format($row['total_pesanan'], 0, ',', '.'); ?></td>
                                     </tr>
                             <?php 
                                 } 

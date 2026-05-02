@@ -30,9 +30,29 @@ if (isset($_POST['simpan_profil'])) {
               WHERE id_user = '$id_user'";
               
     if (mysqli_query($koneksi, $query)) {
-        echo "<script>alert('Profil berhasil diperbarui!'); window.location.href='../profil.php';</script>";
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+<body style='background-color: #f8fafc; font-family: sans-serif;'>
+<script>
+    Swal.fire({
+        text: 'Profil berhasil diperbarui!',
+        icon: 'success',
+        confirmButtonColor: '#1a8f50'
+    }).then(() => {
+        window.location.href='../profil.php';
+    });
+</script></body>";
     } else {
-        echo "<script>alert('Gagal memperbarui profil. Silakan coba lagi.'); window.location.href='../profil.php';</script>";
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+<body style='background-color: #f8fafc; font-family: sans-serif;'>
+<script>
+    Swal.fire({
+        text: 'Gagal memperbarui profil. Silakan coba lagi.',
+        icon: 'error',
+        confirmButtonColor: '#1a8f50'
+    }).then(() => {
+        window.location.href='../profil.php';
+    });
+</script></body>";
     }
 } else {
     header("Location: ../profil.php");

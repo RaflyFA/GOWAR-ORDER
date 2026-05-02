@@ -11,6 +11,7 @@ if (isset($_POST['submit_edit'])) {
     $deskripsi   = $_POST['deskripsi'];
     $harga       = $_POST['harga'];
     $status      = $_POST['status'];
+    $kategori    = $_POST['kategori_produk'];
     
     // Ini nama gambar yang lama, ditangkap dari input hidden
     $gambar_lama = $_POST['gambar_lama'];
@@ -36,7 +37,17 @@ if (isset($_POST['submit_edit'])) {
 
         // Cek ukuran file
         if ($ukuran_file > 2000000) {
-            echo "<script>alert('Ukuran gambar terlalu besar! Maksimal 2MB.'); window.location.href='../edit_menu.php?id=$id_produk';</script>";
+            echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+<body style='background-color: #f8fafc; font-family: sans-serif;'>
+<script>
+    Swal.fire({
+        text: 'Ukuran gambar terlalu besar! Maksimal 2MB.',
+        icon: 'error',
+        confirmButtonColor: '#1a8f50'
+    }).then(() => {
+        window.location.href='../edit_menu.php?id=$id_produk';
+    });
+</script></body>";
             exit();
         }
 
@@ -50,7 +61,17 @@ if (isset($_POST['submit_edit'])) {
                 unlink($lokasi_gambar_lama); // Perintah hapus file
             }
         } else {
-            echo "<script>alert('Gagal mengupload gambar baru.'); window.location.href='../edit_menu.php?id=$id_produk';</script>";
+            echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+<body style='background-color: #f8fafc; font-family: sans-serif;'>
+<script>
+    Swal.fire({
+        text: 'Gagal mengupload gambar baru.',
+        icon: 'error',
+        confirmButtonColor: '#1a8f50'
+    }).then(() => {
+        window.location.href='../edit_menu.php?id=$id_produk';
+    });
+</script></body>";
             exit();
         }
     }
@@ -60,6 +81,7 @@ if (isset($_POST['submit_edit'])) {
                 nama_menu = '$nama_menu', 
                 deskripsi = '$deskripsi', 
                 harga = '$harga', 
+                kategori_produk = '$kategori',
                 status = '$status', 
                 gambar = '$gambar_final' 
               WHERE id_produk = '$id_produk'";
@@ -68,9 +90,29 @@ if (isset($_POST['submit_edit'])) {
 
     // 4. Cek apakah query UPDATE berhasil
     if ($eksekusi) {
-        echo "<script>alert('Berhasil! Menu sudah diperbarui.'); window.location.href='../index_admin.php';</script>";
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+<body style='background-color: #f8fafc; font-family: sans-serif;'>
+<script>
+    Swal.fire({
+        text: 'Berhasil! Menu sudah diperbarui.',
+        icon: 'success',
+        confirmButtonColor: '#1a8f50'
+    }).then(() => {
+        window.location.href='../index_admin.php';
+    });
+</script></body>";
     } else {
-        echo "<script>alert('Gagal mengupdate database.'); window.location.href='../edit_menu.php?id=$id_produk';</script>";
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+<body style='background-color: #f8fafc; font-family: sans-serif;'>
+<script>
+    Swal.fire({
+        text: 'Gagal mengupdate database.',
+        icon: 'error',
+        confirmButtonColor: '#1a8f50'
+    }).then(() => {
+        window.location.href='../edit_menu.php?id=$id_produk';
+    });
+</script></body>";
     }
 
 } else {

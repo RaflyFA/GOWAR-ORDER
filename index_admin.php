@@ -55,6 +55,7 @@ $hasil_menu = mysqli_query($koneksi, $query_menu);
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 antialiased selection:bg-wartan-500 selection:text-white">
 
@@ -112,7 +113,7 @@ $hasil_menu = mysqli_query($koneksi, $query_menu);
                         </div>
                         <div class="truncate">
                             <p class="text-sm font-bold text-slate-800 truncate"><?php echo $_SESSION['nama_admin']; ?></p>
-                            <p class="text-xs text-slate-500">Administrator</p>
+                            <p class="text-xs text-slate-500">Admin</p>
                         </div>
                     </div>
                 </div>
@@ -214,7 +215,7 @@ $hasil_menu = mysqli_query($koneksi, $query_menu);
                                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                                                     </a>
                                                     
-                                                    <a href="actions/hapus_menu.php?id=<?php echo $row['id_produk']; ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus menu ini?');" class="p-2 text-red-500 bg-red-50 hover:bg-red-500 hover:text-white rounded-lg transition-colors border border-red-200 hover:border-red-500" title="Hapus">
+                                                    <a href="actions/hapus_menu.php?id=<?php echo $row['id_produk']; ?>" onclick="event.preventDefault(); const href=this.href; Swal.fire({text: 'Apakah Anda yakin ingin menghapus menu ini?', icon: 'warning', showCancelButton: true, confirmButtonColor: '#d33', cancelButtonColor: '#3085d6', confirmButtonText: 'Ya', cancelButtonText: 'Batal'}).then((r) => { if(r.isConfirmed) window.location.href=href; })" class="p-2 text-red-500 bg-red-50 hover:bg-red-500 hover:text-white rounded-lg transition-colors border border-red-200 hover:border-red-500" title="Hapus">
                                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                                     </a>
                                                 </div>

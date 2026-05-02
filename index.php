@@ -14,10 +14,10 @@ include 'config/koneksi.php';
     
     <style>
         :root {
-            --primary-green: #3d6a4a;
-            --bg-cream: #f9f8f3;
-            --text-dark: #1a1a1a;
-            --secondary-text: #666;
+            --primary-green: #1a8f50; /* Wartan 600 */
+            --bg-cream: #f8fafc; /* Slate 50 */
+            --text-dark: #1e293b; /* Slate 800 */
+            --secondary-text: #64748b; /* Slate 500 */
         }
 
         body { 
@@ -38,7 +38,7 @@ include 'config/koneksi.php';
 
         /* Hero Section */
         .hero-container {
-            padding: 60px 0;
+            padding: 15px 0 60px 0;
             display: flex;
             align-items: center;
         }
@@ -245,9 +245,11 @@ include 'config/koneksi.php';
                 <a href="#menu" class="btn-green m-0">
                     <i class="bi bi-journal-text"></i> Lihat Menu
                 </a>
+                <?php if(!isset($_SESSION['status_login'])): ?>
                 <a href="daftar.php" class="btn-outline m-0">
                     Daftar Gratis
                 </a>
+                <?php endif; ?>
             </div>
 
             <div class="info-bottom mt-4 mt-md-5 mb-5 mb-lg-0">

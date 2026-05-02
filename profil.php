@@ -29,8 +29,8 @@ $lng = !empty($user['longitude']) ? $user['longitude'] : '106.827153';
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f9f8f3; }
-        .bg-wartan { background-color: #3d6a4a; }
-        .btn-green { background-color: #3d6a4a; color: white; border-radius: 10px; }
+        .bg-wartan { background-color: #1a8f50; }
+        .btn-green { background-color: #1a8f50; color: white; border-radius: 10px; }
         .btn-green:hover { background-color: #2b4d34; color: white; }
     </style>
 </head>

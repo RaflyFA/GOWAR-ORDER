@@ -40,7 +40,7 @@ if (!isset($_SESSION['status_login']) || $_SESSION['role'] !== 'admin') {
         }
     </script>
 </head>
-<body class="bg-slate-50 font-sans text-slate-800 flex items-center justify-center min-h-screen p-4 selection:bg-wartan-500 selection:text-white relative overflow-hidden">
+<body class="bg-slate-50 font-sans text-slate-800 flex items-center justify-center min-h-screen p-4 selection:bg-wartan-500 selection:text-white relative overflow-x-hidden">
     
     <!-- Background Decoration -->
     <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
@@ -80,7 +80,13 @@ if (!isset($_SESSION['status_login']) || $_SESSION['role'] !== 'admin') {
                 <label class="block text-sm font-bold text-slate-700">Deskripsi Singkat</label>
                 <textarea name="deskripsi" rows="3" placeholder="Deskripsikan komposisi atau rasa menu..." class="w-full px-4 py-3 bg-slate-50 border border-slate-200 text-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-wartan-500/20 focus:border-wartan-500 transition-all shadow-sm font-medium resize-none"></textarea>
             </div>
-
+            <div class="mb-4">
+    <label class="block text-gray-700 font-semibold mb-2">Kategori Produk</label>
+    <select name="kategori_produk" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500">
+        <option value="Makanan">Makanan</option>
+        <option value="Minuman">Minuman</option>
+    </select>
+</div>
             <div class="space-y-1.5">
                 <label class="block text-sm font-bold text-slate-700">Harga (Rp)</label>
                 <div class="relative">

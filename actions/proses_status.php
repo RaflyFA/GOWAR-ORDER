@@ -14,7 +14,17 @@ if (isset($_POST['update_status'])) {
         // Kembali ke halaman pesanan utama
         header("Location: ../pesanan.php");
     } else {
-        echo "<script>alert('Gagal merubah status!'); window.location.href='../detail_pesanan.php?id=$id_pesanan';</script>";
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+<body style='background-color: #f8fafc; font-family: sans-serif;'>
+<script>
+    Swal.fire({
+        text: 'Gagal merubah status!',
+        icon: 'error',
+        confirmButtonColor: '#1a8f50'
+    }).then(() => {
+        window.location.href='../detail_pesanan.php?id=$id_pesanan';
+    });
+</script></body>";
     }
 } else {
     header("Location: ../pesanan.php");

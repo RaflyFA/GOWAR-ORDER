@@ -61,7 +61,7 @@ if (!$data) {
         }
     </script>
 </head>
-<body class="bg-slate-50 font-sans text-slate-800 flex items-center justify-center min-h-screen p-4 selection:bg-wartan-500 selection:text-white relative overflow-hidden">
+<body class="bg-slate-50 font-sans text-slate-800 flex items-center justify-center min-h-screen p-4 selection:bg-wartan-500 selection:text-white relative overflow-x-hidden">
     
     <!-- Background Decoration -->
     <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
@@ -123,6 +123,19 @@ if (!$data) {
                         <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-slate-500">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-1.5">
+                <label class="block text-sm font-bold text-slate-700">Kategori Produk</label>
+                <div class="relative">
+                    <select name="kategori_produk" class="appearance-none w-full px-4 py-3.5 bg-slate-50 border border-slate-200 text-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all cursor-pointer font-bold shadow-sm">
+                        <option value="Makanan" <?php if($data['kategori_produk'] == 'Makanan') echo 'selected'; ?>>🍛 Makanan</option>
+                        <option value="Minuman" <?php if($data['kategori_produk'] == 'Minuman') echo 'selected'; ?>>🥤 Minuman</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-slate-500">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                 </div>
             </div>

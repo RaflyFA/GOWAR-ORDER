@@ -8,11 +8,11 @@ if (!isset($_SESSION['status_login']) || $_SESSION['role'] !== 'admin') {
 include 'config/koneksi.php';
 
 // 1. Hitung Pesanan Baru (Status: Masuk)
-$q_pesanan_baru = mysqli_query($koneksi, "SELECT COUNT(*) as total FROM pesanan WHERE status_pengiriman = 'masuk'");
+$q_pesanan_baru = mysqli_query($koneksi, "SELECT COUNT(*) as total FROM pesanan WHERE status_pesanan = 'masuk'");
 $pesanan_baru = mysqli_fetch_assoc($q_pesanan_baru)['total'];
 
 // 2. Hitung Omzet Hari Ini (Status: Selesai, Tanggal: Hari Ini)
-$q_omzet = mysqli_query($koneksi, "SELECT SUM(total_harga) as total FROM pesanan WHERE status_pengiriman = 'selesai' AND DATE(tanggal) = CURDATE()");
+$q_omzet = mysqli_query($koneksi, "SELECT SUM(total_pesanan) as total FROM pesanan WHERE status_pesanan = 'selesai' AND DATE(tanggal_pesanan) = CURDATE()");
 $omzet_hari_ini = mysqli_fetch_assoc($q_omzet)['total'];
 $omzet_hari_ini = $omzet_hari_ini ? $omzet_hari_ini : 0; // Jika belum ada yang beli, jadikan 0
 
@@ -25,7 +25,7 @@ $q_stok_habis = mysqli_query($koneksi, "SELECT COUNT(*) as total FROM produk WHE
 $stok_habis = mysqli_fetch_assoc($q_stok_habis)['total'];
 
 // 5. Ambil 5 Pesanan Terakhir untuk Tabel Bawah
-$q_pesanan_terakhir = mysqli_query($koneksi, "SELECT * FROM pesanan ORDER BY tanggal DESC LIMIT 5");
+$q_pesanan_terakhir = mysqli_query($koneksi, "SELECT p.*, u.nama_lengkap as nama FROM pesanan p LEFT JOIN user u ON p.id_user = u.id_user ORDER BY p.tanggal_pesanan DESC LIMIT 5");
 ?>
 
 <!DOCTYPE html>
@@ -128,7 +128,7 @@ $q_pesanan_terakhir = mysqli_query($koneksi, "SELECT * FROM pesanan ORDER BY tan
                         </div>
                         <div class="truncate">
                             <p class="text-sm font-bold text-slate-800 truncate"><?php echo $_SESSION['nama_admin']; ?></p>
-                            <p class="text-xs text-slate-500">Administrator</p>
+                            <p class="text-xs text-slate-500">Admin</p>
                         </div>
                     </div>
                 </div>
@@ -282,16 +282,16 @@ $q_pesanan_terakhir = mysqli_query($koneksi, "SELECT * FROM pesanan ORDER BY tan
                                                 </div>
                                             </td>
                                             <td class="px-6 py-4 text-sm text-slate-600">
-                                                <?php echo date('d M, H:i', strtotime($row['tanggal'])); ?>
+                                                <?php echo date('d M, H:i', strtotime($row['tanggal_pesanan'])); ?>
                                             </td>
                                             <td class="px-6 py-4 font-bold text-slate-800">
-                                                Rp <?php echo number_format($row['total_harga'], 0, ',', '.'); ?>
+                                                Rp <?php echo number_format($row['total_pesanan'], 0, ',', '.'); ?>
                                             </td>
                                             <td class="px-6 py-4">
                                                 <?php 
-                                                if($row['status_pengiriman'] == 'masuk') {
+                                                if($row['status_pesanan'] == 'masuk') {
                                                     echo '<span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200"><span class="w-1.5 h-1.5 rounded-full bg-slate-500 mr-1.5"></span>Masuk</span>';
-                                                } else if($row['status_pengiriman'] == 'disiapkan') {
+                                                } else if($row['status_pesanan'] == 'disiapkan') {
                                                     echo '<span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200"><span class="w-1.5 h-1.5 rounded-full bg-blue-500 mr-1.5"></span>Disiapkan</span>';
                                                 } else {
                                                     echo '<span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>Selesai</span>';

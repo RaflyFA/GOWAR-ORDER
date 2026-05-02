@@ -34,9 +34,29 @@ if (isset($_GET['id'])) {
 
     // 4. Beri notifikasi ke admin
     if ($eksekusi) {
-        echo "<script>alert('Menu berhasil dihapus!'); window.location.href='../index_admin.php';</script>";
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+<body style='background-color: #f8fafc; font-family: sans-serif;'>
+<script>
+    Swal.fire({
+        text: 'Menu berhasil dihapus!',
+        icon: 'success',
+        confirmButtonColor: '#1a8f50'
+    }).then(() => {
+        window.location.href='../index_admin.php';
+    });
+</script></body>";
     } else {
-        echo "<script>alert('Gagal menghapus menu.'); window.location.href='../index_admin.php';</script>";
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+<body style='background-color: #f8fafc; font-family: sans-serif;'>
+<script>
+    Swal.fire({
+        text: 'Gagal menghapus menu.',
+        icon: 'error',
+        confirmButtonColor: '#1a8f50'
+    }).then(() => {
+        window.location.href='../index_admin.php';
+    });
+</script></body>";
     }
 
 } else {

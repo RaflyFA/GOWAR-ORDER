@@ -40,10 +40,13 @@ if (isset($_POST['submit_login'])) {
 
     } else {
         // Jika username atau password salah
-        echo "<script>
-                alert('Username atau Password salah!');
-                window.location.href = '../login.php';
-              </script>";
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+<body style='background-color: #f8fafc; font-family: sans-serif;'>
+              <script>
+                Swal.fire({text: 'Username atau Password salah!', icon: 'error', confirmButtonColor: '#1a8f50'}).then(() => {
+                    window.location.href = '../login.php';
+                });
+              </script></body>";
     }
 } else {
     // Jika ada yang mencoba mengakses file ini langsung dari URL tanpa mengisi form

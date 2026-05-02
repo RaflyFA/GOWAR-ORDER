@@ -74,16 +74,13 @@ $hasil_detail = mysqli_query($koneksi, $query_detail);
             }
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<body class="bg-slate-50 font-sans text-slate-800 min-h-screen py-10 px-4">
+<body class="bg-slate-50 font-sans text-slate-800 min-h-screen flex flex-col">
 
-    <!-- Header Navigation Back -->
-    <div class="max-w-4xl mx-auto mb-6">
-        <a href="<?php echo ($_SESSION['role'] == 'admin') ? 'pesanan.php' : 'riwayat.php'; ?>" class="inline-flex items-center gap-2 text-slate-500 hover:text-wartan-600 font-semibold transition-colors bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm hover:shadow-md">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-            Kembali
-        </a>
-    </div>
+    <?php include 'components/header.php'; ?>
+
+    <div class="px-4 flex-grow">
 
     <!-- Main Detail Card -->
     <div class="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-100">
@@ -100,17 +97,21 @@ $hasil_detail = mysqli_query($koneksi, $query_detail);
                     </p>
                 </div>
                 <div>
-                    <?php 
-                    if($data_pesanan['status_pesanan'] == 'pending') {
-                        echo '<span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-bold bg-white/20 text-white border border-white/30 backdrop-blur-sm"><span class="w-2 h-2 rounded-full bg-yellow-300 animate-pulse"></span>Pesanan Masuk</span>';
-                    } else if($data_pesanan['status_pesanan'] == 'diproses') {
-                        echo '<span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-bold bg-white/20 text-white border border-white/30 backdrop-blur-sm"><span class="w-2 h-2 rounded-full bg-blue-300 animate-pulse"></span>Sedang Disiapkan</span>';
-                    } else if($data_pesanan['status_pesanan'] == 'selesai') {
-                        echo '<span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-bold bg-white/20 text-white border border-white/30 backdrop-blur-sm"><span class="w-2 h-2 rounded-full bg-green-300"></span>Selesai</span>';
-                    } else {
-                        echo '<span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-bold bg-red-900/40 text-red-100 border border-red-400/40 backdrop-blur-sm"><span class="w-2 h-2 rounded-full bg-red-300"></span>Dibatalkan</span>';
-                    }
-                    ?>
+                    <div class="flex flex-col items-end gap-3">
+                        <div>
+                        <?php 
+                        if($data_pesanan['status_pesanan'] == 'pending' || $data_pesanan['status_pesanan'] == 'masuk') {
+                            echo '<span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-bold bg-white/20 text-white border border-white/30 backdrop-blur-sm"><span class="w-2 h-2 rounded-full bg-yellow-300 animate-pulse"></span>Pesanan Masuk</span>';
+                        } else if($data_pesanan['status_pesanan'] == 'diproses') {
+                            echo '<span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-bold bg-white/20 text-white border border-white/30 backdrop-blur-sm"><span class="w-2 h-2 rounded-full bg-blue-300 animate-pulse"></span>Sedang Disiapkan</span>';
+                        } else if($data_pesanan['status_pesanan'] == 'selesai') {
+                            echo '<span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-bold bg-white/20 text-white border border-white/30 backdrop-blur-sm"><span class="w-2 h-2 rounded-full bg-green-300"></span>Selesai</span>';
+                        } else {
+                            echo '<span class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-bold bg-red-500/80 text-white border border-red-400/50 backdrop-blur-sm"><span class="w-2 h-2 rounded-full bg-red-200"></span>Dibatalkan</span>';
+                        }
+                        ?>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -185,6 +186,18 @@ $hasil_detail = mysqli_query($koneksi, $query_detail);
                 </table>
             </div>
 
+            <!-- Batalkan Pesanan Full Width Button -->
+            <?php if (($_SESSION['role'] !== 'admin') && ($data_pesanan['status_pesanan'] == 'pending' || $data_pesanan['status_pesanan'] == 'masuk')): ?>
+            <div class="mt-6 mb-2">
+                <a href="actions/batal_pesanan.php?id=<?php echo $id_pesanan; ?>" onclick="event.preventDefault(); const href=this.href; Swal.fire({text: 'Yakin ingin membatalkan pesanan ini?', icon: 'warning', showCancelButton: true, confirmButtonColor: '#d33', cancelButtonColor: '#3085d6', confirmButtonText: 'Ya, Batalkan', cancelButtonText: 'Tidak'}).then((r) => { if(r.isConfirmed) window.location.href=href; })" class="flex items-center justify-center w-full gap-2 px-6 py-4 rounded-2xl text-sm font-bold bg-white hover:bg-red-50 text-red-600 hover:text-red-700 border-2 border-red-100 hover:border-red-200 shadow-sm transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    Batalkan Pesanan
+                </a>
+            </div>
+            <?php endif; ?>
+
             <?php if($_SESSION['role'] == 'admin'): ?>
             <!-- Action Area -->
             <div class="bg-slate-800 rounded-2xl p-6 shadow-lg shadow-slate-800/20 text-white">
@@ -195,8 +208,8 @@ $hasil_detail = mysqli_query($koneksi, $query_detail);
                         <label class="block text-slate-300 font-semibold mb-2 text-sm uppercase tracking-wider">Update Status Proses</label>
                         <div class="relative">
                             <select name="status_pesanan" class="appearance-none w-full bg-slate-700 border border-slate-600 text-white font-bold px-4 py-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-wartan-500 focus:border-transparent transition-all cursor-pointer shadow-inner">
-                                <option value="pending" <?php if($data_pesanan['status_pesanan'] == 'pending') echo 'selected'; ?>>[🟠 Baru] Pesanan Masuk</option>
-                                <option value="diproses" <?php if($data_pesanan['status_pesanan'] == 'diproses') echo 'selected'; ?>>[🔵 Proses] Sedang Disiapkan</option>
+                                <option value="masuk" <?php if($data_pesanan['status_pesanan'] == 'masuk') echo 'selected'; ?>>[🟠 Baru] Pesanan Masuk</option>
+                                <option value="disiapkan" <?php if($data_pesanan['status_pesanan'] == 'disiapkan') echo 'selected'; ?>>[🔵 Proses] Sedang Disiapkan</option>
                                 <option value="selesai" <?php if($data_pesanan['status_pesanan'] == 'selesai') echo 'selected'; ?>>[🟢 Selesai] Siap Diambil / Diantar</option>
                                 <option value="dibatalkan" style="color:#fca5a5;" <?php if($data_pesanan['status_pesanan'] == 'dibatalkan') echo 'selected'; ?>>[🔴 Batal] Pesanan Dibatalkan</option>
                             </select>
@@ -216,5 +229,9 @@ $hasil_detail = mysqli_query($koneksi, $query_detail);
 
         </div>
     </div>
+    </div>
+
+    <!-- Footer -->
+    <?php include 'components/footer.php'; ?>
 </body>
 </html>

@@ -5,16 +5,33 @@ include 'config/koneksi.php';
 // 1. Ambil data dari FORM keranjang.php
 $total_final = $_POST['total_belanja'] ?? 0; 
 $nama_pembeli = $_POST['nama_pemesan'] ?? 'Pelanggan';
+$alamat_pengiriman = $_POST['alamat_pengiriman'] ?? '';
 $id_user = $_SESSION['id_user'] ?? null;
 
 if (!$id_user) {
-    echo "<script>alert('Sesi berakhir, silakan login kembali'); window.location.href='login.php';</script>";
+    echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+<body style='background-color: #f8fafc; font-family: sans-serif;'>
+<script>
+    Swal.fire({
+        text: 'Sesi berakhir, silakan login kembali',
+        icon: 'warning',
+        confirmButtonColor: '#1a8f50'
+    }).then(() => {
+        window.location.href='login.php';
+    });
+</script></body>";
     exit;
+}
+
+if (!empty($alamat_pengiriman)) {
+    $alamat_escaped = mysqli_real_escape_string($koneksi, $alamat_pengiriman);
+    $nama_escaped = mysqli_real_escape_string($koneksi, $nama_pembeli);
+    $koneksi->query("UPDATE user SET alamat_lengkap='$alamat_escaped', nama_lengkap='$nama_escaped' WHERE id_user='$id_user'");
 }
 
 // 2. Simpan ke Database
 $query = "INSERT INTO pesanan (id_user, total_pesanan, status_pesanan) 
-          VALUES ('$id_user', '$total_final', 'pending')";
+          VALUES ('$id_user', '$total_final', 'masuk')";
 
 if (mysqli_query($koneksi, $query)) {
     $id_pesanan_baru = mysqli_insert_id($koneksi);
@@ -42,16 +59,12 @@ if (mysqli_query($koneksi, $query)) {
         <script src="https://cdn.tailwindcss.com"></script>
         <title>Pesanan Sukses - Wartan</title>
         <style>
-            /* Mengambil tema dari daftar.php: Background Hijau + Pola Makanan */
-            body {
-                background-color: #1a8f50;
-                background-image: url('https://www.transparenttextures.com/patterns/food.png');
-            }
+            body { background-color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; }
             .bg-wartan { background-color: #1a8f50; }
             .text-wartan { color: #1a8f50; }
         </style>
     </head>
-    <body class="flex items-center justify-center min-h-screen p-4 md:p-6"> <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all">
+    <body class="flex items-center justify-center min-h-screen p-4 md:p-6 text-slate-800"> <div class="bg-white rounded-2xl shadow-xl border border-gray-100 w-full max-w-md overflow-hidden transform transition-all">
             
             <div class="bg-wartan text-white p-8 text-center">
                 <div class="bg-white/20 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -72,6 +85,10 @@ if (mysqli_query($koneksi, $query)) {
                     <div class="flex justify-between items-center border-b border-gray-100 pb-3">
                         <span class="text-gray-500 text-sm">Pemesan</span>
                         <span class="font-semibold text-gray-800"><?php echo htmlspecialchars($nama_pembeli); ?></span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-gray-100 pb-3 mt-3">
+                        <span class="text-gray-500 text-sm">Alamat / Meja</span>
+                        <span class="font-semibold text-gray-800 text-right max-w-[60%]"><?php echo htmlspecialchars($alamat_pengiriman); ?></span>
                     </div>
                     <div class="bg-gray-50 rounded-xl p-4 flex justify-between items-center mt-4">
                         <span class="font-bold text-gray-700">Total Bayar</span>

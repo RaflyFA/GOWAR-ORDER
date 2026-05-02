@@ -27,7 +27,17 @@ if (isset($_POST['submit_tambah'])) {
 
     // 5. Cek ukuran file (Maksimal 2MB agar website tidak berat)
     if ($ukuran_file > 2000000) {
-        echo "<script>alert('Ukuran gambar terlalu besar! Maksimal 2MB.'); window.location.href='../tambah_menu.php';</script>";
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+<body style='background-color: #f8fafc; font-family: sans-serif;'>
+<script>
+    Swal.fire({
+        text: 'Ukuran gambar terlalu besar! Maksimal 2MB.',
+        icon: 'error',
+        confirmButtonColor: '#1a8f50'
+    }).then(() => {
+        window.location.href='../tambah_menu.php';
+    });
+</script></body>";
         exit();
     }
 
@@ -35,20 +45,50 @@ if (isset($_POST['submit_tambah'])) {
     if (move_uploaded_file($tmp_file, $lokasi_simpan)) {
         
         // 7. Jika gambar sukses dipindah, simpan datanya (termasuk nama file baru) ke database MySQL
-        $query = "INSERT INTO produk (nama_menu, deskripsi, harga, gambar, status, kategori_produk) 
-                  VALUES ('$nama_menu', '$deskripsi', '$harga', '$nama_file_baru', '$status', '$kategori')";
+        $query = "INSERT INTO produk (nama_menu, deskripsi, harga, gambar, kategori_produk, status) 
+                  VALUES ('$nama_menu', '$deskripsi', '$harga', '$nama_file_baru', '$kategori', '$status')";
         
         $eksekusi = mysqli_query($koneksi, $query);
 
         // 8. Cek apakah query INSERT berhasil
         if ($eksekusi) {
-            echo "<script>alert('Berhasil! Menu baru sudah ditambahkan.'); window.location.href='../index_admin.php';</script>";
+            echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+<body style='background-color: #f8fafc; font-family: sans-serif;'>
+<script>
+    Swal.fire({
+        text: 'Berhasil! Menu baru sudah ditambahkan.',
+        icon: 'success',
+        confirmButtonColor: '#1a8f50'
+    }).then(() => {
+        window.location.href='../index_admin.php';
+    });
+</script></body>";
         } else {
-            echo "<script>alert('Gagal menyimpan ke database.'); window.location.href='../tambah_menu.php';</script>";
+            echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+<body style='background-color: #f8fafc; font-family: sans-serif;'>
+<script>
+    Swal.fire({
+        text: 'Gagal menyimpan ke database.',
+        icon: 'error',
+        confirmButtonColor: '#1a8f50'
+    }).then(() => {
+        window.location.href='../tambah_menu.php';
+    });
+</script></body>";
         }
 
     } else {
-        echo "<script>alert('Gagal mengupload gambar.'); window.location.href='../tambah_menu.php';</script>";
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+<body style='background-color: #f8fafc; font-family: sans-serif;'>
+<script>
+    Swal.fire({
+        text: 'Gagal mengupload gambar.',
+        icon: 'error',
+        confirmButtonColor: '#1a8f50'
+    }).then(() => {
+        window.location.href='../tambah_menu.php';
+    });
+</script></body>";
     }
 
 } else {

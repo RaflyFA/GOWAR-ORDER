@@ -18,21 +18,21 @@ $filter_status     = isset($_GET['status']) ? $_GET['status'] : 'semua';
 $allowed_statuses  = ['semua', 'masuk', 'disiapkan', 'selesai', 'dibatalkan'];
 if (!in_array($filter_status, $allowed_statuses)) $filter_status = 'semua';
 
-$where = ($filter_status !== 'semua') ? "WHERE status_pengiriman = '$filter_status'" : "";
+$where = ($filter_status !== 'semua') ? "WHERE p.status_pesanan = '$filter_status'" : "";
 
 // ─── HITUNG TOTAL UNTUK PAGINATION ────────────────────────────
-$q_total    = mysqli_query($koneksi, "SELECT COUNT(*) as total FROM pesanan $where");
+$q_total    = mysqli_query($koneksi, "SELECT COUNT(*) as total FROM pesanan p $where");
 $total_data = mysqli_fetch_assoc($q_total)['total'];
 $total_page = ceil($total_data / $per_page);
 if ($halaman > $total_page && $total_page > 0) $halaman = $total_page;
 
 // ─── AMBIL DATA SESUAI HALAMAN ────────────────────────────────
-$query_pesanan = "SELECT * FROM pesanan $where ORDER BY id_pesanan DESC LIMIT $per_page OFFSET $offset";
+$query_pesanan = "SELECT p.*, u.nama_lengkap as nama FROM pesanan p LEFT JOIN user u ON p.id_user = u.id_user $where ORDER BY p.id_pesanan DESC LIMIT $per_page OFFSET $offset";
 $hasil_pesanan = mysqli_query($koneksi, $query_pesanan);
 
 // ─── HITUNG BADGE TIAP STATUS (untuk tab) ────────────────────
 function countStatus($koneksi, $status) {
-    $q = mysqli_query($koneksi, "SELECT COUNT(*) as c FROM pesanan WHERE status_pengiriman = '$status'");
+    $q = mysqli_query($koneksi, "SELECT COUNT(*) as c FROM pesanan WHERE status_pesanan = '$status'");
     return mysqli_fetch_assoc($q)['c'];
 }
 $cnt_masuk      = countStatus($koneksi, 'masuk');
@@ -145,7 +145,7 @@ function buildUrl($params = []) {
                         </div>
                         <div class="truncate">
                             <p class="text-sm font-bold text-slate-800 truncate"><?php echo $_SESSION['nama_admin']; ?></p>
-                            <p class="text-xs text-slate-500">Administrator</p>
+                            <p class="text-xs text-slate-500">Admin</p>
                         </div>
                     </div>
                 </div>
@@ -243,13 +243,13 @@ function buildUrl($params = []) {
                                                         <div class="font-bold text-slate-800 group-hover:text-wartan-600 transition-colors"><?php echo $row['nama']; ?></div>
                                                         <div class="text-xs text-slate-500 flex items-center gap-1">
                                                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                                            <?php echo date('d/m/Y, H:i', strtotime($row['tanggal'])); ?>
+                                                            <?php echo date('d/m/Y, H:i', strtotime($row['tanggal_pesanan'])); ?>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td class="px-6 py-4">
-                                                <?php if($row['tipe_pesanan'] == 'delivery') { ?>
+                                                <?php if(isset($row['tipe_pesanan']) && $row['tipe_pesanan'] == 'delivery') { ?>
                                                     <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-purple-50 text-purple-700 border border-purple-200">
                                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                                                         Delivery
@@ -262,15 +262,15 @@ function buildUrl($params = []) {
                                                 <?php } ?>
                                             </td>
                                             <td class="px-6 py-4 font-bold text-slate-800 text-sm">
-                                                Rp <?php echo number_format($row['total_harga'], 0, ',', '.'); ?>
+                                                Rp <?php echo number_format($row['total_pesanan'], 0, ',', '.'); ?>
                                             </td>
                                             <td class="px-6 py-4">
                                                 <?php 
-                                                if($row['status_pengiriman'] == 'masuk') {
+                                                if($row['status_pesanan'] == 'masuk') {
                                                     echo '<span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-yellow-50 text-yellow-700 border border-yellow-200"><span class="w-1.5 h-1.5 rounded-full bg-yellow-500 mr-1.5 animate-pulse"></span>Masuk</span>';
-                                                } else if($row['status_pengiriman'] == 'disiapkan') {
+                                                } else if($row['status_pesanan'] == 'disiapkan') {
                                                     echo '<span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200"><span class="w-1.5 h-1.5 rounded-full bg-blue-500 mr-1.5 animate-pulse"></span>Disiapkan</span>';
-                                                } else if($row['status_pengiriman'] == 'selesai') {
+                                                } else if($row['status_pesanan'] == 'selesai') {
                                                     echo '<span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>Selesai</span>';
                                                 } else {
                                                     echo '<span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-red-50 text-red-700 border border-red-200"><span class="w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5"></span>Dibatalkan</span>';
